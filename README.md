@@ -1,0 +1,1 @@
+Experimentation with PIL imaging library!
