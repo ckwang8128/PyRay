@@ -1,8 +1,8 @@
 """
 Class to represent the scene and shapes for raytracing
 """
-
-
+from numpy import array,dot
+import math
 class Material:
     def __init__(self):
         self.color = (0,0,0)
@@ -35,12 +35,40 @@ class Shape:
     def set_material(self, material):
         self.material = material
 
+    def intersection(self, Ray):
+        pass
+
 class Square(Shape):
-    pass
+    def intersection(self, Ray):
+        pass
 
 class Sphere(Shape):
-    pass
+    def __init__(self, center, radius):
+        self.center = array(center)
+        self.radius = float(radius)
 
+    def intersects(self, ray):
+
+        #a = d . d
+        #b = 2 d . (p0 - pc)
+        #c = (p0 - pc) . (p0 - pc) - r2
+        p0 = ray.origin
+        pc = self.center
+        d = ray.direction
+        r = self.radius
+
+        a = dot(d,d)
+
+        b = dot(2*d, p0-pc)
+        c = dot((p0 - pc), (p0-pc)) - r**2
+        try:
+
+            val1 = (-b+math.sqrt(b**2 - (4*a*c)))/(2*a)
+            val2 = (-b-math.sqrt(b**2 - (4*a*c)))/(2*a)
+        except ValueError:
+            return False
+            
+        return True
 
 class Scene:
     def __init__(self, x,y):

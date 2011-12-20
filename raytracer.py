@@ -11,12 +11,26 @@ if __name__ == '__main__':
     my_scene = Scene(width,height)
     picture = Image.new('RGB', (width, height))
     pixels = picture.load()
+    my_cam = Camera(height, width)
+
+
+    #hardcode a shape in right now. 
+    shapes = []
+    sphere = Sphere([0,0,-1.5], 1)
+    shapes.append(sphere)
+
     
     for i in range(0, my_scene.get_width()):
         for j in range(0, my_scene.get_height()):
             #Want to do ray tracing here
+            ray = my_cam.get_ray((i,j))
             import random
-            pixels[i,j] = (random.randint(0,255),
-                           random.randint(0,255),
-                           random.randint(0,255))
+            for shape in shapes:
+                if shape.intersects(ray):
+                    pixels[i,j] = (0,0,0)
+                else:
+                    pixels[i,j] = (255,255,255)
+    #         pixels[i,j] = (random.randint(0,255),
+    #                        random.randint(0,255),
+    #                        random.randint(0,255))
     picture.show()
