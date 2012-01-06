@@ -7,6 +7,8 @@ class Material:
     def __init__(self):
         self.color = (0,0,0)
         self.ambient = 0.0
+        self.diffuse = 0.0
+        self.specular = 0.0
 
     def set_color(self, rgb):
         """
@@ -17,6 +19,26 @@ class Material:
     def set_ambient(self, amb_val):
         self.ambient = amb_val
     
+    def set_diffuse(self, diff_val):
+        self.diffuse = diff_val
+    
+    def set_specular(self, spec_val):
+        self.specular = spec_val
+    
+    def set_lighting(self, light_vals):
+        """
+        light_vals should be a 3-tuple of (ambient, diffuse, specular)
+        """
+        self.ambient, self.diffuse, self.specular = light_vals
+
+    def get_lighting(self):
+        """
+        Returns a 3-tuple of (ambient, diffuse, specular)
+        """
+        return (self.ambient, self.diffuse, self.specular)
+
+
+
 class Shape:
     """
     Basic class to represent a shape in a raytracing scene
@@ -37,6 +59,9 @@ class Shape:
 
     def intersection(self, Ray):
         pass
+    
+    def get_color(self):
+        return self.material.color
 
 class Square(Shape):
     def intersection(self, Ray):
@@ -52,6 +77,7 @@ class Sphere(Shape):
         #a = d . d
         #b = 2 d . (p0 - pc)
         #c = (p0 - pc) . (p0 - pc) - r2
+
         p0 = ray.origin
         pc = self.center
         d = ray.direction
